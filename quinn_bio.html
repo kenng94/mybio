@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>陈文倩 · Wenqian Chen · Bio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f4;
+    --bg-elev: #ffffff;
+    --ink: #2a1a24;
+    --ink-soft: #5a4452;
+    --ink-mute: #998795;
+    --line: rgba(80, 30, 60, 0.10);
+    --accent: #c44a6a;
+    --accent-soft: rgba(196, 74, 106, 0.14);
+    --serif: 'Noto Serif SC', 'Source Han Serif', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  [data-theme="dark"] {
+    --bg: #1a0f16;
+    --bg-elev: #251720;
+    --ink: #f4ecf0;
+    --ink-soft: #c9b6c0;
+    --ink-mute: #8a7480;
+    --line: rgba(255, 200, 220, 0.10);
+    --accent: #e98aa3;
+    --accent-soft: rgba(233, 138, 163, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  body[data-lang="zh"] { font-family: var(--serif); }
+
+  /* progress bar */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--accent);
+    z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  /* canvas background */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* nav */
+  nav {
+    position: fixed;
+    top: 1.5rem; right: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--bg-elev) 70%, transparent);
+    padding: 0.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  nav button:hover { color: var(--ink); }
+  nav button.active { background: var(--accent); color: #fff; }
+
+  /* layout */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 6rem 2rem 8rem;
+    position: relative;
+  }
+
+  /* hero */
+  .hero {
+    margin-bottom: 5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .hero .avatar {
+    flex-shrink: 0;
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--bg-elev);
+    box-shadow: 0 10px 30px -10px var(--accent-soft),
+                0 0 0 1px var(--line);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .hero .avatar:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 16px 40px -12px var(--accent-soft),
+                0 0 0 2px var(--accent);
+  }
+  .hero .hero-text { flex: 1; min-width: 0; }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    padding-bottom: 0.15em;
+    margin-bottom: 0.4rem;
+    background: linear-gradient(120deg, var(--ink) 0%, var(--ink) 40%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: shimmer 8s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+  }
+  .hero .subtitle {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+    min-height: 1.4em;
+  }
+  .hero .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* sections */
+  section {
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  section.visible { opacity: 1; transform: translateY(0); }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* bio paragraph */
+  .bio-text {
+    font-size: 1.02rem;
+    color: var(--ink-soft);
+    line-height: 1.85;
+  }
+
+  /* contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .contact-item {
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-elev);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+  .contact-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px -12px var(--accent-soft);
+  }
+  .contact-item .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+  .contact-item .value {
+    font-size: 0.95rem;
+    color: var(--ink);
+    word-break: break-all;
+  }
+
+  /* interests list */
+  .interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .interests .chip {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    background: var(--bg-elev);
+    transition: all 0.25s ease;
+    cursor: default;
+  }
+  .interests .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* education table */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    gap: 1.2rem;
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--line);
+    align-items: baseline;
+  }
+  .edu-row:last-child { border-bottom: none; }
+  .edu-row .period {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+  }
+  .edu-row .inst { color: var(--ink); font-weight: 500; }
+  .edu-row .deg { font-size: 0.88rem; color: var(--ink-soft); text-align: right; }
+  .edu-row .detail {
+    grid-column: 1 / -1;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-top: 0.4rem;
+  }
+  .edu-row .detail strong { color: var(--ink); font-weight: 500; }
+
+  /* experience timeline */
+  .exp {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: 2.2rem;
+    border-left: 1px solid var(--line);
+    padding-bottom: 0.4rem;
+  }
+  .exp::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 0.5rem;
+    width: 9px; height: 9px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  .exp:hover::before {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+  .exp .meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
+  }
+  .exp .title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .exp .org {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.8rem;
+  }
+  .exp h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0.9rem 0 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .exp ul {
+    list-style: none;
+    padding: 0;
+  }
+  .exp li {
+    position: relative;
+    padding-left: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .exp li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .exp p {
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* research / award projects */
+  .proj {
+    padding: 1.2rem 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .proj:last-child { border-bottom: none; }
+  .proj .meta {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+  .proj .title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .proj p {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .proj a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+    transition: all 0.2s ease;
+  }
+  .proj a:hover { opacity: 0.7; }
+
+  /* awards table */
+  .award-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px dashed var(--line);
+    align-items: baseline;
+    font-size: 0.9rem;
+  }
+  .award-row:last-child { border-bottom: none; }
+  .award-row .name { color: var(--ink); }
+  .award-row .level {
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+  .award-row .when {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    white-space: nowrap;
+  }
+
+  /* skills */
+  .skill-row {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 0.7rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .skill-row .k {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    min-width: 130px;
+  }
+  .skill-row .v {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    flex: 1;
+  }
+
+  /* footer */
+  footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+  }
+
+  /* lang switching */
+  [data-lang-show] { display: none; }
+  body[data-lang="zh"] [data-lang-show="zh"] { display: revert; }
+  body[data-lang="en"] [data-lang-show="en"] { display: revert; }
+  body[data-lang="zh"] section[data-lang-show="zh"],
+  body[data-lang="en"] section[data-lang-show="en"] { display: block; }
+
+  @media (max-width: 640px) {
+    main { padding: 5rem 1.4rem 5rem; }
+    nav { top: 1rem; right: 1rem; }
+    .hero { gap: 1.2rem; }
+    .hero .avatar { width: 92px; height: 92px; }
+    .edu-row { grid-template-columns: 1fr; gap: 0.2rem; }
+    .edu-row .deg { text-align: left; }
+    .award-row { grid-template-columns: 1fr; gap: 0.2rem; }
+    .skill-row .k { min-width: auto; }
+  }
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="progress" id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <button id="lang-zh" class="active">中文</button>
+  <button id="lang-en">EN</button>
+  <button id="theme-toggle" aria-label="theme">◐</button>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <header class="hero">
+    <img class="avatar" src="img_v3_0212e_711fbbfd-e154-4a53-86e4-8b4dc311308g.jpg" alt="陈文倩 Wenqian Chen" />
+    <div class="hero-text">
+      <h1 data-lang-show="zh">陈文倩 · Chen Wenqian</h1>
+      <h1 data-lang-show="en">Chen Wenqian · Quinn</h1>
+      <div class="subtitle">
+        <span id="typed"></span><span class="cursor"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BIOGRAPHY -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 个人简介 </h2>
+    <h2 data-lang-show="en"> Biography </h2>
+    <p class="bio-text" data-lang-show="zh">
+      陈文倩，清华大学教育学院 2024 级教育学硕士，研究方向聚焦教育政策与工程教育；本科以专业第一的成绩分流至长安大学地下水科学与工程「卓越工程师班」，连续三年位列专业前 5%，硕士期间 GPA 3.92/4，曾获清华之友—长寿英才奖学金，并参与《AI 通识应用手册》的编写与出版。本科至研究生阶段累计发表 SCI 论文 2 篇，申请国家专利 3 项，主持及参与国家级、省级、校级科研与创新项目 8 项；先后于威盛电子、中传未来、好未来教育担任产品相关职位，长期深耕 AI 研学、升学规划与 K12 教育产品方向，习惯以数据驱动需求洞察、以漏斗分析驱动产品迭代，致力于把研究方法论与产品实践紧密融合。
+    </p>
+    <p class="bio-text" data-lang-show="en">
+      Wenqian Chen (Quinn) is a Beijing-based product manager candidate currently pursuing a Master's degree in Education at Tsinghua University (Class of 2027), with research interests in education policy and engineering education. She graduated as the top student in her major from Chang'an University's Excellent-Engineer program in Hydrogeology, ranking in the top 5% of her cohort for three consecutive years, and maintains a 3.92/4 GPA at Tsinghua. She has co-authored two SCI papers, filed three national patents, and led or contributed to eight national/provincial/university-level research projects. Across product internships at VIA Technologies, CMC Future, and TAL Education, she has built deep experience in AI-enabled learning products, college-admission planning, and K-12 content, consistently translating user research into measurable product iteration through funnel analytics and data-driven decision-making.
+    </p>
+  </section>
+
+  <!-- CAREER INTERESTS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 职业方向 </h2>
+    <h2 data-lang-show="en"> Career Interests </h2>
+    <ul class="exp" style="border:none; padding-left:0;">
+      <li data-lang-show="zh"><strong>AI 教育产品</strong> — AI 研学、智能陪学、个性化学习路径与多模态内容形态。</li>
+      <li data-lang-show="zh"><strong>用户研究与需求洞察</strong> — 用户访谈、竞品分析、用户画像、需求分层与 PRD 撰写。</li>
+      <li data-lang-show="zh"><strong>数据驱动产品迭代</strong> — 漏斗分析、A/B 测试、用户行为日志、留存与转化指标体系搭建。</li>
+      <li data-lang-show="zh"><strong>内容运营与增长</strong> — 升学规划、私域 SOP、活动策划与多渠道触达。</li>
+
+      <li data-lang-show="en"><strong>AI Education Products</strong> — AI-enabled learning, personalized tutoring, multimodal content experiences.</li>
+      <li data-lang-show="en"><strong>User Research & Discovery</strong> — interviews, competitive analysis, persona modeling, requirement triage, PRD authoring.</li>
+      <li data-lang-show="en"><strong>Data-Driven Iteration</strong> — funnel analysis, A/B testing, behavioral logs, retention and conversion metrics.</li>
+      <li data-lang-show="en"><strong>Content Operations & Growth</strong> — admissions planning, private-domain SOPs, event design, multi-channel reach.</li>
+    </ul>
+  </section>
+
+  <!-- CONTACT -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 联系方式 </h2>
+    <h2 data-lang-show="en"> Contact </h2>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="label" data-lang-show="zh">电话</div>
+        <div class="label" data-lang-show="en">Phone</div>
+        <div class="value">+86 180 8602 3688</div>
+      </div>
+      <div class="contact-item">
+        <div class="label" data-lang-show="zh">邮箱</div>
+        <div class="label" data-lang-show="en">Email</div>
+        <div class="value">chenwq24@mails.tsinghua.edu.cn</div>
+      </div>
+      <div class="contact-item">
+        <div class="label" data-lang-show="zh">所在地</div>
+        <div class="label" data-lang-show="en">Location</div>
+        <div class="value" data-lang-show="zh">北京 · 籍贯 湖北武汉</div>
+        <div class="value" data-lang-show="en">Beijing · from Wuhan, Hubei</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 教育背景 </h2>
+    <h2 data-lang-show="en"> Education </h2>
+
+    <div class="edu-row">
+      <span class="period">2024.08 – 2027.06</span>
+      <span class="inst" data-lang-show="zh">清华大学 · 教育学院</span>
+      <span class="inst" data-lang-show="en">Tsinghua University · Institute of Education</span>
+      <span class="deg" data-lang-show="zh">教育学 · 硕士</span>
+      <span class="deg" data-lang-show="en">M.Ed. in Education</span>
+      <div class="detail" data-lang-show="zh">
+        <strong>研究方向</strong>：教育政策、工程教育 · <strong>GPA</strong> 3.92/4 · 获清华之友—长寿英才奖学金，参与《AI 通识应用手册》编写与出版。<br>
+        <strong>主修课程</strong>：教育政策分析、定量教育研究方法 (II)、工程人才创新能力发展、教育技术学、管理学、教育心理学、结构方程模型应用等。
+      </div>
+      <div class="detail" data-lang-show="en">
+        <strong>Focus</strong>: education policy & engineering education · <strong>GPA</strong> 3.92/4 · Tsinghua-Friends Changshou Talent Scholarship; co-author of <em>AI Literacy Application Handbook</em>.<br>
+        <strong>Coursework</strong>: education policy analysis, quantitative methods in education (II), engineering-talent innovation, educational technology, management, educational psychology, structural equation modeling.
+      </div>
+    </div>
+
+    <div class="edu-row">
+      <span class="period">2019.08 – 2023.06</span>
+      <span class="inst" data-lang-show="zh">长安大学 · 水利与环境学院</span>
+      <span class="inst" data-lang-show="en">Chang'an University · School of Water & Environment</span>
+      <span class="deg" data-lang-show="zh">地下水科学与工程（卓越工程师）· 工学学士</span>
+      <span class="deg" data-lang-show="en">B.Eng. in Hydrogeology (Excellent-Engineer)</span>
+      <div class="detail" data-lang-show="zh">
+        <strong>专业成绩</strong>：GPA 3.61/5（连续三年专业前 5%，以专业第一的成绩分流至卓越工程师班，连续 2 年获学业优秀奖）。<br>
+        <strong>荣誉奖项</strong>：累计获国家级奖项 4 项、省级奖项 1 项、校级奖项 30 余项；包括奖学金 7 次、学科竞赛奖项 15 项、各类荣誉称号 13 次。<br>
+        <strong>主修课程</strong>：概率论与数理统计 (99)、高等数学 (96)、大学计算机 (93)、统计学 (93)、水文数据分析 (97)、产学研实习（优秀）等。
+      </div>
+      <div class="detail" data-lang-show="en">
+        <strong>GPA</strong>: 3.61/5 — top 5% of major for three consecutive years; admitted to the Excellent-Engineer track as #1 in the cohort; Academic Excellence Award (twice).<br>
+        <strong>Honors</strong>: 4 national-level, 1 provincial, 30+ university-level awards; 7 scholarships, 15 academic-competition awards, 13 honorary titles.<br>
+        <strong>Coursework</strong>: probability & statistics (99), advanced math (96), computer science (93), statistics (93), hydrologic data analysis (97), industry-academia internship (excellent).
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 实习经历 </h2>
+    <h2 data-lang-show="en"> Internship Experience </h2>
+
+    <div class="exp">
+      <div class="meta">2025.11 – 2027.03 · Beijing</div>
+      <div class="title" data-lang-show="zh">AI 研学产品经理</div>
+      <div class="title" data-lang-show="en">AI-Education Product Manager (Intern)</div>
+      <div class="org" data-lang-show="zh">威盛电子 · VIA Technologies</div>
+      <div class="org" data-lang-show="en">VIA Technologies · 威盛电子</div>
+      <ul>
+        <li data-lang-show="zh"><strong>需求调研与分析</strong>：负责 AI 研学产品的竞品分析与用户调研，访谈 50+ 种子用户、梳理行业痛点，1v1 建立用户测评档案并持续跟进，厘清用户需求、产品功能与核心卖点，为产品设计与销售策略调整提供支持。</li>
+        <li data-lang-show="zh"><strong>产品推进与研发</strong>：深度参与核心产品研发，协助完成 PRD 撰写、功能原型设计与线上题库搭建，推进产品服务体系优化迭代与上线测试，推动「清北学霸全科陪学服务」从 0 到 1 落地，提升用户签约率与留存率。</li>
+        <li data-lang-show="zh"><strong>数据驱动迭代</strong>：协助建立产品上线后的用户数据监控体系，基于漏斗分析与用户行为日志，输出 AI 研学产品的优化方案。</li>
+
+        <li data-lang-show="en"><strong>Discovery & analysis</strong>: ran competitive analysis and user research for an AI-learning product line; interviewed 50+ design partners, captured industry pain points, maintained 1-on-1 evaluation files to clarify needs, feature priorities, and core value props feeding product and sales strategy.</li>
+        <li data-lang-show="en"><strong>Product development</strong>: contributed to flagship product builds — co-authored PRDs, designed functional prototypes, set up the online question bank, drove iteration and launch testing, and shipped the "Tsinghua/PKU full-subject tutoring" service from 0 → 1, raising signup and retention.</li>
+        <li data-lang-show="en"><strong>Data-driven iteration</strong>: helped stand up the post-launch metrics pipeline; turned funnel analysis and behavioral logs into prioritized optimization proposals for the AI-learning suite.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2025.07 – 2025.10 · Beijing</div>
+      <div class="title" data-lang-show="zh">产品运营（负责人）</div>
+      <div class="title" data-lang-show="en">Product Operations Lead (Intern)</div>
+      <div class="org" data-lang-show="zh">中传未来 · CMC Future</div>
+      <div class="org" data-lang-show="en">CMC Future · 中传未来</div>
+      <ul>
+        <li data-lang-show="zh"><strong>内容运营与用户触达</strong>：负责升学规划产品的多渠道推广，独立撰写并分发 30+ 篇高阅读量推文，覆盖高考政策解读、志愿填报等议题。</li>
+        <li data-lang-show="zh"><strong>转化漏斗优化</strong>：深度参与产品从曝光到转化的全流程，基于用户行为数据优化落地页文案、设置自动化企微 SOP 引导。</li>
+        <li data-lang-show="zh"><strong>广告投放优化</strong>：运营 1000+ 人规模的账号，策划「学长学姐分享会」「志愿填报答疑」等 10+ 场活动，通过精细化运营提升用户转化。</li>
+
+        <li data-lang-show="en"><strong>Content & reach</strong>: led multi-channel promotion for the admissions-planning product; authored and distributed 30+ articles on Gaokao policy interpretation and major-selection guidance, several with high readership.</li>
+        <li data-lang-show="en"><strong>Funnel optimization</strong>: owned the impression-to-conversion path end to end; rewrote landing copy and built automated WeCom SOP nudges based on behavioral data.</li>
+        <li data-lang-show="en"><strong>Acquisition & activation</strong>: ran 1,000+-member private-domain accounts; planned 10+ events ("alumni Q&A", "college-application clinics") that materially lifted conversion.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2022.11 – 2022.12 · Xi'an</div>
+      <div class="title" data-lang-show="zh">产学研实习负责人 · 地下水数值模拟</div>
+      <div class="title" data-lang-show="en">Industry-Academia Project Lead · Groundwater Modeling</div>
+      <div class="org" data-lang-show="zh">长安大学水利与环境学院 · 校企合作项目</div>
+      <div class="org" data-lang-show="en">Chang'an University · industry-collaboration project</div>
+      <ul>
+        <li data-lang-show="zh"><strong>合作对接与任务拆解</strong>：将目标拆解为「数据收集 → 参数率定 → 模型验证 → 结果输出」全流程子任务，制定阶段性里程碑与分工表。</li>
+        <li data-lang-show="zh"><strong>数据分析与模型迭代</strong>：运用 SPSS、Excel 等工具处理 1000+ 条数据，并基于合作方反馈利用 GMS 完成 3 轮水质评价模型迭代与优化。</li>
+        <li data-lang-show="zh"><strong>项目落地与成果转化</strong>：基于数据分析结果输出可视化报告与可执行建议，相关成果被合作方及所在学院纳入水资源规划参考。</li>
+
+        <li data-lang-show="en"><strong>Project structuring</strong>: decomposed the engagement into a four-phase pipeline (data collection → parameter calibration → model validation → reporting) with milestones and an explicit ownership matrix.</li>
+        <li data-lang-show="en"><strong>Modeling & analysis</strong>: processed 1,000+ data points in SPSS/Excel and ran three iterations of the water-quality assessment model in GMS, incorporating partner feedback at each round.</li>
+        <li data-lang-show="en"><strong>Delivery</strong>: produced a visualized analysis report with actionable recommendations; outputs were adopted by the partner organization and the school's water-resource planning references.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2021.07 – 2021.09</div>
+      <div class="title" data-lang-show="zh">产品教研实习</div>
+      <div class="title" data-lang-show="en">Product & Curriculum Research Intern</div>
+      <div class="org" data-lang-show="zh">好未来教育 · TAL Education</div>
+      <div class="org" data-lang-show="en">TAL Education · 好未来</div>
+      <ul>
+        <li data-lang-show="zh"><strong>用户需求调研</strong>：协助教研团队完成 K12 语文课程内容研发，归纳 500+ 用户的核心需求，针对性优化社群运营策略。</li>
+        <li data-lang-show="zh"><strong>数据驱动运营</strong>：分析家长群用户活跃度、课程续报转化率，输出周度数据报告，优化数据分析与效果复盘。</li>
+        <li data-lang-show="zh"><strong>跨团队协作</strong>：对接主讲老师、运营团队推进课程优化需求，跟进需求从讨论到落地的全流程，积累跨角色协作经验。</li>
+
+        <li data-lang-show="en"><strong>User research</strong>: supported curriculum R&D for K-12 Chinese language; synthesized core needs from 500+ users to refine community-operation strategy.</li>
+        <li data-lang-show="en"><strong>Operations analytics</strong>: tracked parent-group engagement and course-renewal conversion; produced weekly metrics reports and post-mortems.</li>
+        <li data-lang-show="en"><strong>Cross-functional execution</strong>: partnered with lead teachers and ops to drive curriculum-improvement requests from discussion to delivery.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 科研经历 </h2>
+    <h2 data-lang-show="en"> Research Experience </h2>
+
+    <div class="proj">
+      <div class="meta" data-lang-show="zh">论文发表</div>
+      <div class="meta" data-lang-show="en">Publications</div>
+      <div class="title" data-lang-show="zh">已发表 SCI 论文 2 篇 · 在研论文 2 篇</div>
+      <div class="title" data-lang-show="en">2 SCI Publications · 2 Working Papers</div>
+      <p data-lang-show="zh">参与 SCI 论文 <em>Impacts of Land Use/Land Cover Patterns on Groundwater Quality in the Guanzhong Basin of Northwest China</em> 与 <em>Hydrochemical Background Levels and Threshold Values of Phreatic Groundwater in the Greater Xi'an Region, China: Spatiotemporal Distribution, Influencing Factors and Implications to Water Quality Management</em>（非第一作者），均见刊。硕士期间发表《卓越工程师何以卓越：基于英国工程师能力要求的文本分析》，撰写《以分类发展创建世界一流大学的中国道路》（第二作者）。</p>
+      <p data-lang-show="en">Co-author of <em>Impacts of Land Use/Land Cover Patterns on Groundwater Quality in the Guanzhong Basin of Northwest China</em> and <em>Hydrochemical Background Levels and Threshold Values of Phreatic Groundwater in the Greater Xi'an Region: Spatiotemporal Distribution, Influencing Factors and Implications to Water Quality Management</em> (both published). Master's-level papers: "What Makes the Excellent Engineer? A Text Analysis of UK Engineering Competency Standards" and "Creating World-Class Universities through Differentiated Development: A Chinese Path" (second author).</p>
+    </div>
+
+    <div class="proj">
+      <div class="meta" data-lang-show="zh">专利申请</div>
+      <div class="meta" data-lang-show="en">Patents</div>
+      <div class="title" data-lang-show="zh">3 项国家专利</div>
+      <div class="title" data-lang-show="en">3 National Patents</div>
+      <p data-lang-show="zh">以第一发明人申请专利 2 项：《一种水文工程地质用地下水采集取样装置》《遥测地下水位监测仪》；以第二发明人申请专利 1 项《一种教育信息化多媒体设备》，均已受理。</p>
+      <p data-lang-show="en">First inventor on two patents — "Groundwater Sampling Device for Hydrogeological Engineering" and "Remote Groundwater-Level Monitor"; second inventor on "Multimedia Device for Education Informatization." All filings accepted.</p>
+    </div>
+
+    <div class="proj">
+      <div class="meta" data-lang-show="zh">大学生创新创业训练计划 · 3 项</div>
+      <div class="meta" data-lang-show="en">Student Innovation & Entrepreneurship Programs · 3 projects</div>
+      <div class="title" data-lang-show="zh">国家级 / 省级 / 校级立项</div>
+      <div class="title" data-lang-show="en">National / Provincial / University-Level Grants</div>
+      <p data-lang-show="zh"><strong>《光催化剂的合成及在解聚木质素成芳香族化合物的应用》</strong>（国家级立项·一等奖结题）— 凭此参与第十二届「挑战杯」并获校重点资助。<strong>《地下水与土壤地球化学背景值研究》</strong>（国家级立项·二等奖结题）— 担任队长，统筹课题规划与推进，并以此参与第十三届「挑战杯」获校重点资助。<strong>《硬质化、非硬质化场地条件下降水自然力循环系统》</strong>（校级立项）— 作为核心成员参与实验与数据处理，已结题。</p>
+      <p data-lang-show="en"><strong>"Photocatalyst Synthesis for Lignin Depolymerization to Aromatic Compounds"</strong> — national-level grant, 1st-prize completion; further developed for the 12th Challenge Cup. <strong>"Background-Value Study of Groundwater & Soil Geochemistry"</strong> — national-level grant, served as team lead, 2nd-prize completion; supported entry into the 13th Challenge Cup. <strong>"Natural-Force Precipitation Cycle in Hard- vs. Soft-Surfaced Sites"</strong> — university-level grant, served as core member on experimentation and data analysis; project completed.</p>
+    </div>
+
+    <div class="proj">
+      <div class="meta">2021 – 2023</div>
+      <div class="title" data-lang-show="zh">陕西省秦岭生态科学考察项目</div>
+      <div class="title" data-lang-show="en">Qinling Ecological Survey Project · Shaanxi Province</div>
+      <p data-lang-show="zh">项目获陕西省团委重点立项资助。团队基于调研数据总结秦岭地区生态保护方案，最终形成《秦岭生态科学考察报告》。</p>
+      <p data-lang-show="en">Funded by the Shaanxi Communist Youth League. The team synthesized field survey data into an ecological-protection framework for the Qinling region, published as the <em>Qinling Ecological Survey Report</em>.</p>
+    </div>
+
+    <div class="proj">
+      <div class="meta">YT23033</div>
+      <div class="title" data-lang-show="zh">教育部学位与研究生教育发展中心委托项目</div>
+      <div class="title" data-lang-show="en">MoE Center for Degree & Graduate Education — Commissioned Project</div>
+      <p data-lang-show="zh">研一期间参与导师课题《工程类专业学位人才培养能力标准和质量认证体系研究》，已成功结题。</p>
+      <p data-lang-show="en">Contributed during the first year of master's studies to the advisor-led project "Competency Standards and Quality-Certification Systems for Engineering Professional-Degree Talent Cultivation," now completed.</p>
+    </div>
+  </section>
+
+  <!-- HONORS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 荣誉奖项 </h2>
+    <h2 data-lang-show="en"> Honors & Awards </h2>
+
+    <p class="bio-text" style="margin-bottom: 1rem; font-size: 0.95rem;" data-lang-show="zh">
+      累计获国家级奖项 4 项、省级奖项 1 项、校级奖项 30 余项；含奖学金 7 次、学科竞赛奖项 15 项、各类荣誉称号 13 次。代表性奖项如下：
+    </p>
+    <p class="bio-text" style="margin-bottom: 1rem; font-size: 0.95rem;" data-lang-show="en">
+      4 national-level, 1 provincial, and 30+ university-level awards; including 7 scholarships, 15 academic-competition prizes, and 13 honorary titles. Selected awards:
+    </p>
+
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">「赛迪环保杯」第十三届全国大学生节能减排社会实践与科技竞赛</span>
+      <span class="name" data-lang-show="en">13th National Energy-Saving & Emission-Reduction Competition (CCID Cup)</span>
+      <span class="level" data-lang-show="zh">国家级二等奖 · 校级一等奖</span>
+      <span class="level" data-lang-show="en">National 2nd · University 1st</span>
+      <span class="when">2020.05</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">CULSC 第八届全国大学生生命科学竞赛</span>
+      <span class="name" data-lang-show="en">8th CULSC National Life-Science Competition</span>
+      <span class="level" data-lang-show="zh">国家级三等奖 · 校级特等奖</span>
+      <span class="level" data-lang-show="en">National 3rd · University Special</span>
+      <span class="when">2023.08</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">「爱国行 · 强国志 · 报国行」全国主题征文大赛（中宣部主办）</span>
+      <span class="name" data-lang-show="en">National Patriotic-Themed Essay Competition (Central Publicity Department)</span>
+      <span class="level" data-lang-show="zh">国家级三等奖</span>
+      <span class="level" data-lang-show="en">National 3rd Prize</span>
+      <span class="when">2021.03</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">第三届全国大学生计算机技能应用大赛</span>
+      <span class="name" data-lang-show="en">3rd National Collegiate Computer-Skills Competition</span>
+      <span class="level" data-lang-show="zh">国家级优秀奖 · 优秀志愿者</span>
+      <span class="level" data-lang-show="en">National Honor · Outstanding Volunteer</span>
+      <span class="when">2020.05</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">第十二届全国大学生数学竞赛（非数学类）</span>
+      <span class="name" data-lang-show="en">12th National Collegiate Mathematics Competition (non-math majors)</span>
+      <span class="level" data-lang-show="zh">省级三等奖</span>
+      <span class="level" data-lang-show="en">Provincial 3rd Prize</span>
+      <span class="when">2020.12</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">长安大学「长大之星（团队）」特等奖学金</span>
+      <span class="name" data-lang-show="en">Chang'an University "Star of CHU (Team)" Special Scholarship</span>
+      <span class="level" data-lang-show="zh">校级特等奖</span>
+      <span class="level" data-lang-show="en">University Special</span>
+      <span class="when">2021.12</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">长安大学「求真之星」一等奖学金</span>
+      <span class="name" data-lang-show="en">Chang'an University "Star of Truth" 1st-Class Scholarship</span>
+      <span class="level" data-lang-show="zh">校级一等奖</span>
+      <span class="level" data-lang-show="en">University 1st</span>
+      <span class="when">2021.12</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">第六届「互联网+」全国大学生创新创业大赛</span>
+      <span class="name" data-lang-show="en">6th "Internet+" National Innovation & Entrepreneurship Competition</span>
+      <span class="level" data-lang-show="zh">校级铜奖</span>
+      <span class="level" data-lang-show="en">University Bronze</span>
+      <span class="when">2020.08</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">第十二届「挑战杯」大学生课外学术科技作品竞赛</span>
+      <span class="name" data-lang-show="en">12th "Challenge Cup" Extracurricular Academic Science & Technology Competition</span>
+      <span class="level" data-lang-show="zh">校级三等奖</span>
+      <span class="level" data-lang-show="en">University 3rd</span>
+      <span class="when">2021.04</span>
+    </div>
+    <div class="award-row">
+      <span class="name" data-lang-show="zh">长安大学党委宣传部学生宣传思想工作先进个人</span>
+      <span class="name" data-lang-show="en">Chang'an University — Outstanding Individual in Student Publicity Work</span>
+      <span class="level" data-lang-show="zh">校级个人荣誉</span>
+      <span class="level" data-lang-show="en">University-level Honor</span>
+      <span class="when">2021.05</span>
+    </div>
+  </section>
+
+  <!-- STUDENT WORK / PRACTICE -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 学工与实践经历 </h2>
+    <h2 data-lang-show="en"> Student Leadership & Practice </h2>
+
+    <div class="exp">
+      <div class="meta">2024.09 – Present</div>
+      <div class="title" data-lang-show="zh">研团副书记</div>
+      <div class="title" data-lang-show="en">Deputy Secretary, Graduate Youth League Committee</div>
+      <div class="org" data-lang-show="zh">清华大学教育学院</div>
+      <div class="org" data-lang-show="en">Institute of Education, Tsinghua University</div>
+      <ul>
+        <li data-lang-show="zh"><strong>部门管理</strong>：分管研究生团委博士生讲师团，负责部门成员管理与任务分工，协助研团其他部门高效率推进与筹备重大活动。</li>
+        <li data-lang-show="zh"><strong>活动组织</strong>：联合其他高校支教团开展青年主题宣讲，与咸阳市 6 所高中联动开展联合宣讲活动，累计受众覆盖 2000+。</li>
+        <li data-lang-show="zh">同时担任清华大学研究生学生会学术部干事、博士生讲师团「立言计划」成员。</li>
+
+        <li data-lang-show="en"><strong>Department leadership</strong>: oversaw the doctoral lecturer corps, managed members and task allocation, and supported other committees in scaling major events.</li>
+        <li data-lang-show="en"><strong>Event organization</strong>: co-hosted youth-themed lectures with peer university teaching teams; coordinated joint events with six Xianyang high schools, reaching 2,000+ attendees.</li>
+        <li data-lang-show="en">Concurrent roles: Graduate Student Union Academic Committee officer; "Liyan Initiative" doctoral lecturer corps member.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2019.08 – 2023.06 · Chang'an University</div>
+      <div class="title" data-lang-show="zh">长安通讯社（编辑） · 星火宣讲团（讲师） · 文艺部（正部长）</div>
+      <div class="title" data-lang-show="en">Editor · Lecturer · Department Chair</div>
+      <div class="org" data-lang-show="zh">长安大学水利与环境学院</div>
+      <div class="org" data-lang-show="en">School of Water & Environment, Chang'an University</div>
+      <ul>
+        <li data-lang-show="zh"><strong>校级 — 长安通讯社编辑</strong>：累计撰稿 25,000+ 字，参与网络推送的排版与审核、采访、音频剪辑等工作 24 次，累计审稿 300+ 篇；2019-2020 学年获「党委学生宣传思想工作先进个人」荣誉称号。</li>
+        <li data-lang-show="zh"><strong>校级 — 星火宣讲团讲师</strong>：累积在全国范围内线上线下开展并参与各类主题教育宣讲 100+ 场，打磨宣讲稿 150+ 份，开展经验交流会 50+ 场，覆盖全校 17 个院系，受众超过 6,000 人次，相关事迹报道 200+ 次。</li>
+        <li data-lang-show="zh"><strong>院级 — 水环学院文艺部正部长</strong>：负责组织策划文艺晚会、风采展等大型活动，涵盖活动策划、流程设计及现场管理等全流程工作。</li>
+        <li data-lang-show="zh"><strong>实践活动</strong>：作为队长带领团队完成长安大学优秀学子回母校招生宣传寒假社会实践（2020.11–2021.03），疫情期间面向低/中/高风险地区采取线上宣讲、线下宣传、录播分享 3 种方式，累计走访 23 所高中，团队获评「优秀实践队」；参与「关爱关中水土环境 · 助力生态文明建设」暑期社会实践（2021.07–2021.08）。</li>
+
+        <li data-lang-show="en"><strong>Editor, Chang'an News Agency</strong>: contributed 25,000+ words; layout, review, interviewing, and audio editing across 24 publications; reviewed 300+ submissions; named "Outstanding Individual in Student Publicity Work" by the Party Committee (AY 2019-2020).</li>
+        <li data-lang-show="en"><strong>Lecturer, Spark Lecture Corps</strong>: delivered or contributed to 100+ thematic lectures (online and in-person) nationally; refined 150+ lecture scripts and led 50+ experience-sharing sessions across 17 departments, reaching 6,000+ attendees with 200+ press mentions.</li>
+        <li data-lang-show="en"><strong>Department Chair, Arts Division</strong>: led end-to-end planning, run-of-show, and on-site management for major events including the annual gala and showcase.</li>
+        <li data-lang-show="en"><strong>Field practice</strong>: led the "alumni return for admissions outreach" winter program (2020.11–2021.03), running online lectures, on-site outreach, and recorded sessions tailored to risk-level zones during COVID; visited 23 high schools, earning the team an "Excellent Practice Team" designation. Contributed to the summer "Guanzhong Water-Soil Environment & Ecological Civilization" program (2021.07–2021.08).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 技能 / 证书 </h2>
+    <h2 data-lang-show="en"> Skills & Certifications </h2>
+
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">产品能力</span>
+      <span class="k" data-lang-show="en">Product</span>
+      <span class="v" data-lang-show="zh">用户画像 · 竞品调研 · 需求分析 · 产品设计 · PRD 撰写 · 数据分析 · 持续关注前沿 AI 产品</span>
+      <span class="v" data-lang-show="en">user persona · competitive research · requirement analysis · product design · PRD authoring · data analysis · continuous tracking of frontier AI products</span>
+    </div>
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">数据 / 分析</span>
+      <span class="k" data-lang-show="en">Data / Analytics</span>
+      <span class="v">SQL · SPSS · Origin · Stata · GMS · Excel</span>
+    </div>
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">设计 / 产出</span>
+      <span class="k" data-lang-show="en">Design / Output</span>
+      <span class="v">Axure · X-mind · Photoshop · Adobe Audition · Premiere Pro</span>
+    </div>
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">办公套件</span>
+      <span class="k" data-lang-show="en">Office</span>
+      <span class="v" data-lang-show="zh">Microsoft Office · WPS（熟练）</span>
+      <span class="v" data-lang-show="en">Microsoft Office · WPS (proficient)</span>
+    </div>
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">证书</span>
+      <span class="k" data-lang-show="en">Certificates</span>
+      <span class="v" data-lang-show="zh">计算机二级 · 英语 CET-4 / CET-6 · 高中语文教师资格证 · 普通话二级甲等</span>
+      <span class="v" data-lang-show="en">NCRE Level 2 · CET-4 / CET-6 · High-School Chinese Teacher Certificate · Putonghua Level 2-A</span>
+    </div>
+  </section>
+
+  <!-- SUMMARY / SELF-EVALUATION -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 自我评价 </h2>
+    <h2 data-lang-show="en"> Self-Evaluation </h2>
+    <ul class="exp" style="border:none; padding-left:0;">
+      <li data-lang-show="zh"><strong>数据分析能力</strong>：熟练运用 SQL 进行数据查询与分析，能够为产品需求提供有力的数据支持。</li>
+      <li data-lang-show="zh"><strong>团队协作能力</strong>：曾担任项目队长，统筹多项任务，具备较强的责任心与 owner 意识，能够高效推动需求从调研到落地的全流程。</li>
+      <li data-lang-show="zh"><strong>实习时间适配</strong>：2027 年毕业；可在北京线下实习不少于三个月，每周到岗 4–5 天，三月可随时到岗。</li>
+
+      <li data-lang-show="en"><strong>Analytics</strong>: proficient in SQL for query and analysis; able to bring rigorous data support to product decisions.</li>
+      <li data-lang-show="en"><strong>Team & ownership</strong>: served as project lead across multiple programs; strong sense of ownership in driving requirements from discovery to delivery.</li>
+      <li data-lang-show="en"><strong>Availability</strong>: graduating in 2027; available for on-site Beijing internships of three months or more, 4–5 days per week, with immediate start in March.</li>
+    </ul>
+  </section>
+
+  <!-- LANGUAGES & INTERESTS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 语言 / 兴趣 </h2>
+    <h2 data-lang-show="en"> Languages / Interests </h2>
+
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">语言</span>
+      <span class="k" data-lang-show="en">Languages</span>
+      <span class="v" data-lang-show="zh">中文（母语）· 英语（CET-6 · 学术与工作语言）</span>
+      <span class="v" data-lang-show="en">Mandarin (native) · English (CET-6, academic & working)</span>
+    </div>
+
+    <div class="skill-row" style="align-items: center;">
+      <span class="k" data-lang-show="zh">兴趣</span>
+      <span class="k" data-lang-show="en">Interests</span>
+      <span class="interests">
+        <span class="chip" data-lang-show="zh">摄影</span>
+        <span class="chip" data-lang-show="zh">视频剪辑</span>
+        <span class="chip" data-lang-show="zh">写作</span>
+        <span class="chip" data-lang-show="zh">教育公益</span>
+        <span class="chip" data-lang-show="zh">前沿 AI 产品</span>
+        <span class="chip" data-lang-show="en">Photography</span>
+        <span class="chip" data-lang-show="en">Video Editing</span>
+        <span class="chip" data-lang-show="en">Writing</span>
+        <span class="chip" data-lang-show="en">Education Outreach</span>
+        <span class="chip" data-lang-show="en">Frontier AI</span>
+      </span>
+    </div>
+  </section>
+
+  <footer>
+    <span data-lang-show="zh">© 陈文倩 · Wenqian Chen</span>
+    <span data-lang-show="en">© Wenqian Chen</span>
+  </footer>
+</main>
+
+<script>
+  // ========== Theme toggle ==========
+  const themeBtn = document.getElementById('theme-toggle');
+  const stored = localStorage.getItem('theme');
+  if (stored) document.body.dataset.theme = stored;
+  themeBtn.addEventListener('click', () => {
+    const cur = document.body.dataset.theme === 'dark' ? '' : 'dark';
+    document.body.dataset.theme = cur;
+    localStorage.setItem('theme', cur);
+  });
+
+  // ========== Language toggle ==========
+  const zhBtn = document.getElementById('lang-zh');
+  const enBtn = document.getElementById('lang-en');
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+    zhBtn.classList.toggle('active', l === 'zh');
+    enBtn.classList.toggle('active', l === 'en');
+    localStorage.setItem('lang', l);
+    typeRotate();
+  }
+  zhBtn.addEventListener('click', () => setLang('zh'));
+  enBtn.addEventListener('click', () => setLang('en'));
+
+  // ========== Typed subtitle ==========
+  const phrasesZh = [
+    'Product Manager · 产品经理',
+    '清华大学 · 教育学硕士',
+    'AI 研学 · 教育产品',
+    '北京 · 数据驱动'
+  ];
+  const phrasesEn = [
+    'Product Manager · Beijing',
+    'Tsinghua MEd · Education',
+    'AI Education · Product',
+    'Data-Driven · User Research'
+  ];
+  const typed = document.getElementById('typed');
+  let typeTimer = null;
+  let typeIdx = 0, charIdx = 0, deleting = false;
+
+  function typeRotate() {
+    if (typeTimer) clearTimeout(typeTimer);
+    typeIdx = 0; charIdx = 0; deleting = false;
+    typed.textContent = '';
+    typeStep();
+  }
+  function typeStep() {
+    const list = document.body.dataset.lang === 'zh' ? phrasesZh : phrasesEn;
+    const phrase = list[typeIdx % list.length];
+    if (!deleting) {
+      typed.textContent = phrase.slice(0, ++charIdx);
+      if (charIdx >= phrase.length) {
+        deleting = true;
+        typeTimer = setTimeout(typeStep, 1800);
+        return;
+      }
+    } else {
+      typed.textContent = phrase.slice(0, --charIdx);
+      if (charIdx <= 0) {
+        deleting = false;
+        typeIdx++;
+      }
+    }
+    typeTimer = setTimeout(typeStep, deleting ? 30 : 65);
+  }
+
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang) setLang(savedLang);
+  else typeRotate();
+
+  // ========== Scroll reveal ==========
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // ========== Progress bar ==========
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (scrolled * 100) + '%';
+  }, { passive: true });
+
+  // ========== Particle background ==========
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouse = { x: -1000, y: -1000 };
+
+  function resize() {
+    canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    initParticles();
+  }
+  function initParticles() {
+    const count = Math.min(80, Math.floor(window.innerWidth * window.innerHeight / 18000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: Math.random() * 1.4 + 0.6
+    }));
+  }
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const isDark = document.body.dataset.theme === 'dark';
+    const dotColor = isDark ? 'rgba(233,138,163,0.55)' : 'rgba(196,74,106,0.50)';
+    const lineColor = isDark ? 'rgba(233,138,163,' : 'rgba(196,74,106,';
+
+    for (let p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+      if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
+
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const md = Math.sqrt(dx*dx + dy*dy);
+      if (md < 120) {
+        p.x += dx / md * 0.6;
+        p.y += dy / md * 0.6;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = dotColor;
+      ctx.fill();
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = lineColor + (1 - d/120) * 0.35 + ')';
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+  window.addEventListener('resize', resize);
+  resize();
+  loop();
+</script>
+
+</body>
+</html>
