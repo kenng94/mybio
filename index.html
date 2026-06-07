@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kangzhang Wu · Bio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f3f6fa;
+    --bg-elev: #ffffff;
+    --ink: #11202e;
+    --ink-soft: #41566b;
+    --ink-mute: #7c8ea1;
+    --line: rgba(20, 50, 80, 0.10);
+    --accent: #2f6fb5;
+    --accent-soft: rgba(47, 111, 181, 0.14);
+    --serif: 'Noto Serif SC', 'Source Han Serif', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0b1220;
+    --bg-elev: #121b2c;
+    --ink: #e6edf6;
+    --ink-soft: #b1bccd;
+    --ink-mute: #6c7c92;
+    --line: rgba(180, 210, 255, 0.10);
+    --accent: #6aa8e8;
+    --accent-soft: rgba(106, 168, 232, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+
+  body[data-lang="zh"] { font-family: var(--serif); }
+
+  /* progress bar */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--accent);
+    z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  /* canvas background */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* nav */
+  nav {
+    position: fixed;
+    top: 1.5rem; right: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--bg-elev) 70%, transparent);
+    padding: 0.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  nav button:hover { color: var(--ink); }
+  nav button.active { background: var(--accent); color: #fff; }
+
+  /* layout */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 6rem 2rem 8rem;
+    position: relative;
+  }
+
+  /* hero */
+  .hero {
+    margin-bottom: 5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .hero .avatar {
+    flex-shrink: 0;
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--bg-elev);
+    box-shadow: 0 10px 30px -10px var(--accent-soft),
+                0 0 0 1px var(--line);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .hero .avatar:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 16px 40px -12px var(--accent-soft),
+                0 0 0 2px var(--accent);
+  }
+  .hero .hero-text { flex: 1; min-width: 0; }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    padding-bottom: 0.15em;
+    margin-bottom: 0.4rem;
+    background: linear-gradient(120deg, var(--ink) 0%, var(--ink) 40%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: shimmer 8s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+  }
+  .hero .subtitle {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+    min-height: 1.4em;
+  }
+  .hero .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* sections */
+  section {
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  section.visible { opacity: 1; transform: translateY(0); }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* bio paragraph */
+  .bio-text {
+    font-size: 1.02rem;
+    color: var(--ink-soft);
+    line-height: 1.85;
+  }
+
+  /* contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .contact-item {
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-elev);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+  .contact-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px -12px var(--accent-soft);
+  }
+  .contact-item .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+  .contact-item .value {
+    font-size: 0.95rem;
+    color: var(--ink);
+    word-break: break-all;
+  }
+
+  /* interests list */
+  .interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .interests .chip {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    background: var(--bg-elev);
+    transition: all 0.25s ease;
+    cursor: default;
+  }
+  .interests .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* education table */
+  .edu-row {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    gap: 1.2rem;
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--line);
+    align-items: baseline;
+  }
+  .edu-row:last-child { border-bottom: none; }
+  .edu-row .period {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+  }
+  .edu-row .inst { color: var(--ink); font-weight: 500; }
+  .edu-row .deg { font-size: 0.88rem; color: var(--ink-soft); text-align: right; }
+
+  /* experience timeline */
+  .exp {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: 2.2rem;
+    border-left: 1px solid var(--line);
+    padding-bottom: 0.4rem;
+  }
+  .exp::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 0.5rem;
+    width: 9px; height: 9px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+  .exp:hover::before {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+  .exp .meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.02em;
+  }
+  .exp .title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .exp .org {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.8rem;
+  }
+  .exp h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0.9rem 0 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .exp ul {
+    list-style: none;
+    padding: 0;
+  }
+  .exp li {
+    position: relative;
+    padding-left: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .exp li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .exp p {
+    font-size: 0.93rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+
+  /* research projects */
+  .proj {
+    padding: 1.2rem 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .proj:last-child { border-bottom: none; }
+  .proj .meta {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--ink-mute);
+    margin-bottom: 0.3rem;
+  }
+  .proj .title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .proj p {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .proj a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+    transition: all 0.2s ease;
+  }
+  .proj a:hover { opacity: 0.7; }
+
+  /* skills */
+  .skill-row {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 0.7rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .skill-row .k {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    min-width: 130px;
+  }
+  .skill-row .v {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    flex: 1;
+  }
+
+  /* footer */
+  footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+  }
+
+  /* lang switching */
+  [data-lang-show] { display: none; }
+  body[data-lang="zh"] [data-lang-show="zh"] { display: revert; }
+  body[data-lang="en"] [data-lang-show="en"] { display: revert; }
+  body[data-lang="zh"] section[data-lang-show="zh"],
+  body[data-lang="en"] section[data-lang-show="en"] { display: block; }
+
+  @media (max-width: 640px) {
+    main { padding: 5rem 1.4rem 5rem; }
+    nav { top: 1rem; right: 1rem; }
+    .hero { gap: 1.2rem; }
+    .hero .avatar { width: 92px; height: 92px; }
+    .edu-row { grid-template-columns: 1fr; gap: 0.2rem; }
+    .edu-row .deg { text-align: left; }
+    .skill-row .k { min-width: auto; }
+  }
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="progress" id="progress"></div>
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <button id="lang-zh" class="active">中文</button>
+  <button id="lang-en">EN</button>
+  <button id="theme-toggle" aria-label="theme">◐</button>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <header class="hero">
+    <img class="avatar" src="img_v3_0212e_b79ec24a-0f5c-4b9d-b9ec-29709d09e20g.jpg" alt="Kangzhang Wu" />
+    <div class="hero-text">
+      <h1 data-lang-show="zh">吴康彰 · Ken Ng</h1>
+      <h1 data-lang-show="en">Kangzhang Wu · Ken Ng</h1>
+      <div class="subtitle">
+        <span id="typed"></span><span class="cursor"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BIOGRAPHY -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 个人简介 </h2>
+    <h2 data-lang-show="en"> Biography </h2>
+    <p class="bio-text" data-lang-show="zh">
+      量化研究员，研究方向聚焦于算法交易微观结构建模、Alpha 因子挖掘与机器学习在金融市场中的方法论创新。本科兼修计算机科学（上海大学）与金融学（华东师范大学），并于香港大学取得计算机科学硕士学位，研究期间师从 Prof. Jerome Yen 与 Prof. S. M. Yiu，深入探索数值计算加速与强化学习驱动的衍生品交易策略。其后于头部量化机构从事七年以上的研究工作，将学术方法系统化地落地于实盘交易体系，致力于在统计学习、随机优化与高性能计算的交叉领域推进可验证、可复现的研究成果。
+    </p>
+    <p class="bio-text" data-lang-show="en">
+      Kangzhang Wu is a quantitative researcher whose work centers on microstructure-aware algorithmic execution, alpha factor discovery, and methodological advances in machine learning for financial markets. He holds a B.Eng. in Computer Science from Shanghai University, a B.Econ. in Finance from East China Normal University, and an M.Sc. in Computer Science from The University of Hong Kong, where he conducted research under Prof. Jerome Yen and Prof. S. M. Yiu on numerical acceleration for derivatives pricing and reinforcement-learning-based trading strategies. Over the subsequent seven years at leading quantitative investment firms, he has translated this academic foundation into rigorous, reproducible research at the intersection of statistical learning, stochastic optimization, and high-performance computing.
+    </p>
+  </section>
+
+  <!-- RESEARCH INTERESTS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 研究兴趣 </h2>
+    <h2 data-lang-show="en"> Research Interests </h2>
+    <ul class="exp" style="border:none; padding-left:0;">
+      <li data-lang-show="zh"><strong>算法交易与市场微观结构</strong> — 被动执行策略、最优挂单与撤单决策、流动性建模、市场冲击与成交概率估计。</li>
+      <li data-lang-show="zh"><strong>Alpha 因子与信号合成</strong> — 截面预测、时序信号建模、因子正交化与组合优化。</li>
+      <li data-lang-show="zh"><strong>机器学习方法论</strong> — 基于树模型与深度学习的非线性信号合成、AutoML 与神经架构搜索 (NAS)、贝叶斯优化、强化学习。</li>
+      <li data-lang-show="zh"><strong>金融工程与数值方法</strong> — 隐含波动率曲面快速求解、GPU/异构并行计算、衍生品定价与套利。</li>
+
+      <li data-lang-show="en"><strong>Algorithmic Execution & Microstructure</strong> — passive execution policies, optimal posting and cancellation, liquidity modeling, market-impact and fill-probability estimation.</li>
+      <li data-lang-show="en"><strong>Alpha Construction & Signal Combination</strong> — cross-sectional prediction, time-series modeling, factor orthogonalization, portfolio optimization.</li>
+      <li data-lang-show="en"><strong>Machine Learning Methodology</strong> — nonlinear signal combination via tree-based and deep-learning models, AutoML / NAS, Bayesian optimization, reinforcement learning.</li>
+      <li data-lang-show="en"><strong>Financial Engineering & Numerics</strong> — fast solvers for implied volatility surfaces, GPU/heterogeneous parallel computing, derivatives pricing and arbitrage.</li>
+    </ul>
+  </section>
+
+  <!-- CONTACT -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 联系方式 </h2>
+    <h2 data-lang-show="en"> Contact </h2>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="label" data-lang-show="zh">电话</div>
+        <div class="label" data-lang-show="en">Phone</div>
+        <div class="value">+86 158 1669 9488</div>
+      </div>
+      <div class="contact-item">
+        <div class="label" data-lang-show="zh">香港</div>
+        <div class="label" data-lang-show="en">Hong Kong</div>
+        <div class="value">+852 6765 2206</div>
+      </div>
+      <div class="contact-item">
+        <div class="label" data-lang-show="zh">邮箱</div>
+        <div class="label" data-lang-show="en">Email</div>
+        <div class="value">kanzve@163.com</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 学历背景 </h2>
+    <h2 data-lang-show="en"> Education </h2>
+
+    <div class="edu-row">
+      <span class="period">2017.09 – 2019.07</span>
+      <span class="inst" data-lang-show="zh">香港大学</span>
+      <span class="inst" data-lang-show="en">The University of Hong Kong</span>
+      <span class="deg" data-lang-show="zh">计算机科学 · 理学硕士</span>
+      <span class="deg" data-lang-show="en">M.Sc. in Computer Science</span>
+    </div>
+    <div class="edu-row">
+      <span class="period">2014.09 – 2017.07</span>
+      <span class="inst" data-lang-show="zh">华东师范大学</span>
+      <span class="inst" data-lang-show="en">East China Normal University</span>
+      <span class="deg" data-lang-show="zh">金融学 · 经济学学士</span>
+      <span class="deg" data-lang-show="en">B.Econ. in Finance</span>
+    </div>
+    <div class="edu-row">
+      <span class="period">2013.09 – 2017.07</span>
+      <span class="inst" data-lang-show="zh">上海大学</span>
+      <span class="inst" data-lang-show="en">Shanghai University</span>
+      <span class="deg" data-lang-show="zh">计算机科学 · 工学学士</span>
+      <span class="deg" data-lang-show="en">B.Eng. in Computer Science</span>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 研究与工作经历 </h2>
+    <h2 data-lang-show="en"> Research & Professional Experience </h2>
+
+    <div class="exp">
+      <div class="meta">2026.03 – Present</div>
+      <div class="title" data-lang-show="zh">高级量化研究员</div>
+      <div class="title" data-lang-show="en">Senior Quantitative Researcher</div>
+      <div class="org">Vantage</div>
+      <ul>
+        <li data-lang-show="zh">量化交易策略开发：构建并迭代多类系统化交易策略，覆盖信号研究、组合优化与实盘部署。</li>
+        <li data-lang-show="zh">衍生品产品定价：负责黄金、外汇、股票等多资产类别的 7×24 小时连续定价体系建设，提供给市场更精准丰富的交易产品。</li>
+        <li data-lang-show="zh">做市商策略开发：设计并实现做市商报价与库存管理框架，优化双边挂单、对冲机制与不利选择风险控制。</li>
+
+        <li data-lang-show="en">Quantitative trading strategy development: built and iterated systematic strategies end-to-end, covering signal research, portfolio optimization, and live deployment.</li>
+        <li data-lang-show="en">Derivatives pricing: led 24/7 continuous pricing across gold, FX, equities and other asset classes.</li>
+        <li data-lang-show="en">Market-making strategy development: designed quoting and inventory-management frameworks, optimizing two-sided posting, hedging, and adverse-selection controls.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2021.03 – 2025.03 · Shenzhen</div>
+      <div class="title" data-lang-show="zh">量化研究员</div>
+      <div class="title" data-lang-show="en">Quantitative Researcher</div>
+      <div class="org">Maoyuan Lianghua Capital · 茂源量化资本</div>
+
+      <h4 data-lang-show="zh">算法执行 · AlgoSmart Execution</h4>
+      <h4 data-lang-show="en">Algorithmic Execution · AlgoSmart</h4>
+      <ul>
+        <li data-lang-show="zh">提出并实现 T0 算法交易的被动执行模型，在目标库存与完成率约束下，通过显式建模成交概率与执行效用，权衡 maker-flow 占比与市场冲击之间的折中关系，从而降低交易滑点。</li>
+        <li data-lang-show="zh">模型以实时微观结构数据驱动挂单决策，在动态市场状态下完成对最优出价层级与撤改单时机的在线求解。</li>
+        <li data-lang-show="zh">在日内交易算法的迭代中引入精细化 Alpha 信号与自研时序因子，结合波动率、成交概率与市场冲击的联合建模优化子单切片策略。</li>
+
+        <li data-lang-show="en">Designed a passive execution framework for T0 algorithmic trading; explicitly modeling fill probability and execution utility under inventory and completion-rate constraints, formalizing the trade-off between maker-flow capture and market impact.</li>
+        <li data-lang-show="en">Posting decisions are driven by real-time microstructure signals; the system performs online inference of optimal quote levels and cancel/replace timing under non-stationary regimes.</li>
+        <li data-lang-show="en">Refined intraday algorithms by incorporating proprietary time-series factors and jointly modeling volatility, fill probability, and market impact to optimize sub-order slicing.</li>
+      </ul>
+
+      <h4 data-lang-show="zh">Alpha 研究</h4>
+      <h4 data-lang-show="en">Alpha Research</h4>
+      <ul>
+        <li data-lang-show="zh">完整开展端到端 Alpha 策略研究：因子构建与检验、信号合成、组合优化与风险约束、回测、模拟交易与实盘部署。</li>
+        <li data-lang-show="zh">实盘资金管理规模逾 ¥20M，并对策略容量进行系统性扩展性研究，验证可推广至 ¥5B AUM 量级。</li>
+
+        <li data-lang-show="en">End-to-end alpha research: factor construction and validation, signal merging, portfolio optimization with risk constraints, backtesting, simulation, and live deployment.</li>
+        <li data-lang-show="en">Managed live portfolios in excess of ¥20M and conducted systematic capacity studies demonstrating scalability beyond ¥5B AUM.</li>
+      </ul>
+
+      <h4 data-lang-show="zh">机器学习方法论</h4>
+      <h4 data-lang-show="en">Machine Learning Methodology</h4>
+      <ul>
+        <li data-lang-show="zh">主导基于梯度提升树与深度学习架构的 Alpha 信号合成研究，显著提升截面预测的信息系数 (IC)。</li>
+        <li data-lang-show="zh">创建 <strong>DeepAutoAlpha</strong>：基于 AutoML 与贝叶斯优化的神经架构搜索框架，实现自动化因子挖掘与最优合成模型发现，将 NAS 方法引入金融时序建模。</li>
+
+        <li data-lang-show="en">Led research on alpha signal-merging models based on gradient boosting trees and deep neural architectures, materially improving cross-sectional Information Coefficient (IC).</li>
+        <li data-lang-show="en">Originated <strong>DeepAutoAlpha</strong>, an AutoML and Bayesian-optimization-based NAS framework for automated factor mining and signal-merging-model discovery, introducing NAS to financial time-series modeling.</li>
+      </ul>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2020.01 – 2021.02 · Shenzhen</div>
+      <div class="title" data-lang-show="zh">量化研究员</div>
+      <div class="title" data-lang-show="en">Quantitative Researcher</div>
+      <div class="org">Jiupai Capital · 九派资本</div>
+      <p data-lang-show="zh">作为量化交易部门创始成员，自零搭建研究与交易基础设施，涵盖硬件平台、全栈交易管线、因子库与回测系统，并参与多类自研策略的方法论研究。</p>
+      <p data-lang-show="en">As a founding member of the quantitative desk, established the research and trading infrastructure from the ground up — hardware, the full-stack trading pipeline, the factor library, and the backtesting system — while contributing to several proprietary strategies.</p>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2019.08 – 2020.01 · Shenzhen</div>
+      <div class="title" data-lang-show="zh">AI 算法工程师</div>
+      <div class="title" data-lang-show="en">AI Algorithm Engineer</div>
+      <div class="org">Pingan Technology · 平安科技</div>
+      <p data-lang-show="zh">加入知识图谱研究组，参与面向深圳市政府发展研究中心 (DRC) 的 AI 宏观经济分析系统研发；基于多源大规模数据与深度学习方法预测 GDP 等核心宏观指标。</p>
+      <p data-lang-show="en">Joined the Knowledge Graph Research Group to drive R&D of an AI-powered macroeconomic analysis system for the Shenzhen Development and Research Center (DRC); forecasted GDP and other key indicators using large-scale multi-source data and deep-learning models.</p>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2019.02 – 2020.12 · Hong Kong</div>
+      <div class="title" data-lang-show="zh">董事 / 总监</div>
+      <div class="title" data-lang-show="en">Director</div>
+      <div class="org">SynMatrix Technology · 平行矩阵</div>
+      <p data-lang-show="zh">带领 11 人研究团队代表香港大学构建混合型算法交易系统，整合策略研究与实时交易模块。项目荣获 <strong>香港青年创业大赛季军</strong>。</p>
+      <p data-lang-show="en">Led an 11-member team representing HKU in building a hybrid algorithmic trading system that integrated strategy research with real-time execution. Awarded <strong>3rd Prize at the Hong Kong Youth Startup Competition</strong>.</p>
+    </div>
+
+    <div class="exp">
+      <div class="meta">2018.06 – 2018.08 · Hong Kong</div>
+      <div class="title" data-lang-show="zh">量化开发实习生</div>
+      <div class="title" data-lang-show="en">Quantitative Development Intern</div>
+      <div class="org">Huobi Asia · 火币亚洲</div>
+      <p data-lang-show="zh">参与多家加密货币交易所对接系统的开发，并基于市场指标对交易所流动性进行监测与刻画。</p>
+      <p data-lang-show="en">Contributed to connectivity systems linking multiple cryptocurrency exchanges and characterized exchange liquidity through microstructure indicators.</p>
+    </div>
+  </section>
+
+  <!-- RESEARCH PROJECTS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 研究项目 </h2>
+    <h2 data-lang-show="en"> Research Projects </h2>
+
+    <div class="proj">
+      <div class="meta">2018.09 – 2019.05 · Supervisor: Prof. Jerome Yen</div>
+      <div class="title" data-lang-show="zh">隐含波动率曲面的快速生成：传统数值分析与机器学习的协同优化</div>
+      <div class="title" data-lang-show="en">Fast Generation of Implied Volatility Surfaces: A Synergy of Numerical Analysis and Machine Learning</div>
+      <p data-lang-show="zh">研究面向期权隐含波动率求解的高效算法，通过 C++ 与 OpenCL API 将关键数值计算逻辑迁移至 GPU 异构计算平台，显著加速波动率曲面生成，并以此探讨相对高频期权套利策略的可行性与盈利空间。研究成果发表于 <em>International Journal of Financial Engineering</em>。</p>
+      <p data-lang-show="en">Investigated efficient algorithms for option implied volatility by porting core numerical kernels onto GPU heterogeneous platforms via C++ and OpenCL. The resulting acceleration enables much faster volatility surface generation and supports relatively high-frequency option arbitrage. Published in <em>International Journal of Financial Engineering</em>.</p>
+      <p><a href="https://doi.org/10.1142/S2424786321500377" target="_blank" rel="noopener">DOI: 10.1142/S2424786321500377 ↗</a></p>
+    </div>
+
+    <div class="proj">
+      <div class="meta">2018.09 – 2019.05 · Supervisor: Prof. S. M. Yiu</div>
+      <div class="title" data-lang-show="zh">人工智能在金融领域的应用</div>
+      <div class="title" data-lang-show="en">AI in Financial Applications</div>
+      <p data-lang-show="zh">硕士毕业研究，基于强化学习方法研究黄金期货与期权的交易策略，探讨在金融时序问题中状态空间设计、奖励函数构造与策略稳定性等核心议题。</p>
+      <p data-lang-show="en">Master's graduation research investigating reinforcement-learning-based trading strategies for gold futures and options, with emphasis on state-space design, reward shaping, and policy stability in financial time-series problems.</p>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 出版物 </h2>
+    <h2 data-lang-show="en"> Publications </h2>
+    <div class="proj">
+      <p>Wu, K., Yen, J., et al. <em>Fast Generation of Implied Volatility Surface: Optimize the Traditional Numerical Analysis and Machine Learning.</em> International Journal of Financial Engineering.</p>
+      <p><a href="https://doi.org/10.1142/S2424786321500377" target="_blank" rel="noopener">DOI: 10.1142/S2424786321500377 ↗</a></p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 专业技能 </h2>
+    <h2 data-lang-show="en"> Technical Skills </h2>
+
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">编程语言</span>
+      <span class="k" data-lang-show="en">Languages</span>
+      <span class="v">C / C++ · Python · SQL</span>
+    </div>
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">平台框架</span>
+      <span class="k" data-lang-show="en">Platforms</span>
+      <span class="v">Linux · TensorFlow · PyTorch · CUDA Toolkit · OpenCL</span>
+    </div>
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">方法论</span>
+      <span class="k" data-lang-show="en">Methodology</span>
+      <span class="v" data-lang-show="zh">算法执行 · 微观结构建模 · Alpha 因子挖掘 · 信号合成 · 组合优化 · AutoML / NAS · 深度学习 · 强化学习 · 贝叶斯优化 · GPU 并行计算</span>
+      <span class="v" data-lang-show="en">algorithmic execution · microstructure modeling · alpha mining · signal combination · portfolio optimization · AutoML / NAS · deep learning · reinforcement learning · Bayesian optimization · GPU parallel computing</span>
+    </div>
+  </section>
+
+  <!-- LANGUAGES & INTERESTS -->
+  <section data-reveal>
+    <h2 data-lang-show="zh"> 语言 / 兴趣 </h2>
+    <h2 data-lang-show="en"> Languages / Interests </h2>
+
+    <div class="skill-row">
+      <span class="k" data-lang-show="zh">语言</span>
+      <span class="k" data-lang-show="en">Languages</span>
+      <span class="v" data-lang-show="zh">中文（母语）· 英语（学术与工作语言）· 粤语</span>
+      <span class="v" data-lang-show="en">Mandarin (native) · English (academic & working) · Cantonese</span>
+    </div>
+
+    <div class="skill-row" style="align-items: center;">
+      <span class="k" data-lang-show="zh">兴趣</span>
+      <span class="k" data-lang-show="en">Interests</span>
+      <span class="interests">
+        <span class="chip" data-lang-show="zh">水肺 / 自由潜水</span>
+        <span class="chip" data-lang-show="zh">马术</span>
+        <span class="chip" data-lang-show="zh">单板滑雪</span>
+        <span class="chip" data-lang-show="zh">摄影</span>
+        <span class="chip" data-lang-show="en">Scuba & Free Diving</span>
+        <span class="chip" data-lang-show="en">Equestrian</span>
+        <span class="chip" data-lang-show="en">Snowboarding</span>
+        <span class="chip" data-lang-show="en">Photography</span>
+      </span>
+    </div>
+  </section>
+
+  <footer>
+    <span data-lang-show="zh">© Kangzhang Wu</span>
+    <span data-lang-show="en">© Kangzhang Wu</span>
+  </footer>
+</main>
+
+<script>
+  // ========== Theme toggle ==========
+  const themeBtn = document.getElementById('theme-toggle');
+  const stored = localStorage.getItem('theme');
+  if (stored) document.body.dataset.theme = stored;
+  themeBtn.addEventListener('click', () => {
+    const cur = document.body.dataset.theme === 'dark' ? '' : 'dark';
+    document.body.dataset.theme = cur;
+    localStorage.setItem('theme', cur);
+  });
+
+  // ========== Language toggle ==========
+  const zhBtn = document.getElementById('lang-zh');
+  const enBtn = document.getElementById('lang-en');
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+    zhBtn.classList.toggle('active', l === 'zh');
+    enBtn.classList.toggle('active', l === 'en');
+    localStorage.setItem('lang', l);
+    typeRotate();
+  }
+  zhBtn.addEventListener('click', () => setLang('zh'));
+  enBtn.addEventListener('click', () => setLang('en'));
+
+  // ========== Typed subtitle ==========
+  const phrasesZh = [
+    'Quantitative Researcher',
+    '量化研究员 · 算法交易',
+    'Alpha · NAS · GPU 计算',
+    'HKU · MSc Computer Science'
+  ];
+  const phrasesEn = [
+    'Quantitative Researcher',
+    'Algorithmic Execution & Alpha',
+    'Machine Learning · NAS · GPU',
+    'HKU · MSc Computer Science'
+  ];
+  const typed = document.getElementById('typed');
+  let typeTimer = null;
+  let typeIdx = 0, charIdx = 0, deleting = false;
+
+  function typeRotate() {
+    if (typeTimer) clearTimeout(typeTimer);
+    typeIdx = 0; charIdx = 0; deleting = false;
+    typed.textContent = '';
+    typeStep();
+  }
+  function typeStep() {
+    const list = document.body.dataset.lang === 'zh' ? phrasesZh : phrasesEn;
+    const phrase = list[typeIdx % list.length];
+    if (!deleting) {
+      typed.textContent = phrase.slice(0, ++charIdx);
+      if (charIdx >= phrase.length) {
+        deleting = true;
+        typeTimer = setTimeout(typeStep, 1800);
+        return;
+      }
+    } else {
+      typed.textContent = phrase.slice(0, --charIdx);
+      if (charIdx <= 0) {
+        deleting = false;
+        typeIdx++;
+      }
+    }
+    typeTimer = setTimeout(typeStep, deleting ? 30 : 65);
+  }
+
+  const savedLang = localStorage.getItem('lang');
+  if (savedLang) setLang(savedLang);
+  else typeRotate();
+
+  // ========== Scroll reveal ==========
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // ========== Progress bar ==========
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (scrolled * 100) + '%';
+  }, { passive: true });
+
+  // ========== Particle background ==========
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouse = { x: -1000, y: -1000 };
+
+  function resize() {
+    canvas.width = window.innerWidth * devicePixelRatio;
+    canvas.height = window.innerHeight * devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    initParticles();
+  }
+  function initParticles() {
+    const count = Math.min(80, Math.floor(window.innerWidth * window.innerHeight / 18000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: Math.random() * 1.4 + 0.6
+    }));
+  }
+  function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const isDark = document.body.dataset.theme === 'dark';
+    const dotColor = isDark ? 'rgba(106,168,232,0.55)' : 'rgba(47,111,181,0.50)';
+    const lineColor = isDark ? 'rgba(106,168,232,' : 'rgba(47,111,181,';
+
+    for (let p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+      if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
+
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const md = Math.sqrt(dx*dx + dy*dy);
+      if (md < 120) {
+        p.x += dx / md * 0.6;
+        p.y += dy / md * 0.6;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = dotColor;
+      ctx.fill();
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = lineColor + (1 - d/120) * 0.35 + ')';
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+  window.addEventListener('resize', resize);
+  resize();
+  loop();
+</script>
+
+</body>
+</html>
